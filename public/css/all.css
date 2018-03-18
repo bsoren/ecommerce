@@ -3860,6 +3860,38 @@ a.thumbnail {
 .clearfix::after {
   clear: both; }
 
+.nav {
+  background-color: #2A3F54; }
+  .nav .menu > li > a {
+    color: #ffffff;
+    font-size: 1rem; }
+    .nav .menu > li > a:hover, .nav .menu > li > a:active, .nav .menu > li > a:focus {
+      background-color: #192632; }
+  .nav h3 {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center; }
+  .nav .image-holder {
+    background-color: #cc4b37;
+    padding: 0.7rem; }
+    .nav .image-holder img {
+      border-radius: 50%;
+      border: 2px solid #913425;
+      padding: 0.3rem;
+      height: 200px;
+      width: 200px; }
+    .nav .image-holder p {
+      color: #ffffff;
+      font-size: 1.2rem; }
+
+.admin_title_bar .title-bar {
+  background-color: #2A3F54; }
+  .admin_title_bar .title-bar .title-bar-title {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: 500; }
+
 .shake {
   animation-name: shake-7; }
 

@@ -16,3 +16,36 @@ function view($path, array $data = []){
     echo $blade->view()->make($path, $data)->render();
 
 }
+
+function make($filename, $data){
+
+
+    extract($data);
+
+    // turn on output buffering
+    ob_start();
+
+    // include template
+    include(__DIR__.'/../../resources/view/emails/'.$filename.'.php');
+
+    // get content from internal buffer
+    $content = ob_get_contents();
+
+    // erase the output and turn off output buffering
+    ob_end_clean();
+
+    return $content;
+
+}
+
+
+function slug($value) {
+    // remove all characters not in this list: underscore | letters | numbers | whitespace
+    $value = preg_replace('![^'.preg_quote('_').'\pL\pN\s]+!u', '', mb_strtolower($value));
+
+    // regular-expression.info
+    //replace underscore with a dash
+    $value = preg_replace('!['.preg_quote('-').'\s]+!u', '-', $value);
+
+    return trim($value,'-');
+}
