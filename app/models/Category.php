@@ -11,6 +11,7 @@ namespace App\models;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Category extends Model
 {
@@ -35,5 +36,27 @@ class Category extends Model
 
 
 
+    public function transform($data) {
+
+        $categories = [];
+
+        foreach ($data as $item) {
+
+            $created_at =  new Carbon($item->created_at);
+
+            array_push($categories, [
+
+                'id'        => $item->id,
+                'name'      => $item->name,
+                'slug'      => $item->slug,
+                'added'     => $created_at->toFormattedDateString()
+
+            ]);
+        }
+
+        return $categories;
+
+
+    }
 
 }

@@ -24,6 +24,8 @@ elixir(function (mix) {
             //foundation js
             bowerPath + '/foundation-sites/dist/js/foundation.min.js',
             //other dependencies
-            bowerPath + '/slick-carousel/slick/slick.min.js'
+            bowerPath + '/slick-carousel/slick/slick.min.js',
+            'js/init.js'
+
         ], 'public/js/all.js', 'resources/assets');
 });

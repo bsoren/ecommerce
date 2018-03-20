@@ -6,6 +6,11 @@
  * Time: 6:04 PM
  */
 
+use voku\helper\Paginator;
+
+use Illuminate\Database\Capsule\Manager as Capsule;
+
+
 function view($path, array $data = []){
 
     $viewPaths = __DIR__.'/../../resources/view';
@@ -38,7 +43,6 @@ function make($filename, $data){
 
 }
 
-
 function slug($value) {
     // remove all characters not in this list: underscore | letters | numbers | whitespace
     $value = preg_replace('![^'.preg_quote('_').'\pL\pN\s]+!u', '', mb_strtolower($value));
@@ -48,4 +52,30 @@ function slug($value) {
     $value = preg_replace('!['.preg_quote('-').'\s]+!u', '-', $value);
 
     return trim($value,'-');
+}
+
+
+/**
+ * Paginating through all rows
+ * @param $num_of_pages
+ * @param $total_records
+ * @param $table_name
+ * @param $object
+ * @return array
+ */
+function paginate($num_of_pages, $total_records, $table_name, $object) {
+
+    $pages = new Paginator($num_of_pages, "p");
+
+    $pages->set_total($total_records);
+
+    $data = Capsule::select("SELECT * FROM $table_name ORDER BY created_at DESC "
+        . $pages->get_limit());
+
+
+    $categories = $object->transform($data);
+
+    return [$categories, $pages->page_links()];
+
+
 }

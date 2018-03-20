@@ -17,12 +17,32 @@ use App\models\Category;
 class ProductCategoryController
 {
 
+    public $categories = [];
+    public $links =[];
+    public $errors = [];
+
+    private $num_of_records_in_page = 5;
+
+    public $table_name = 'categories';
+
+    public function __construct() {
+
+        $total_records = Category::all()->count();
+        $catgoryObject = new Category();
+
+        list($this->categories, $this->links)
+            = paginate($this->num_of_records_in_page, $total_records, $this->table_name, $catgoryObject);
+    }
+
+
     public function show() {
 
-        $categories = Category::all();
-        $message = 'Nothing';
+        return view('admin/products/categories',[
 
-        return view('admin/products/categories', compact('categories','message'));
+            'categories' => $this->categories,
+            'links'      => $this->links
+
+        ]);
     }
 
 
@@ -53,11 +73,14 @@ class ProductCategoryController
 
                     $validationErrors = $validator->getErrors();
 
-                    echo "Validation Errors" . "</br></br>";
+                    return view('admin/products/categories',[
 
-                    var_dump($validationErrors);
+                        'categories' => $this->categories,
+                        'links'      => $this->links,
+                        'errors'     => $validationErrors
 
-                    exit;
+                    ]);
+
                 } else {
 
                     echo "No Validation Errors";
@@ -68,11 +91,18 @@ class ProductCategoryController
                     'slug' => slug($request->name)
                 ]);
 
-                $categories = Category::all();
+                $total_records = Category::all()->count();
+                $catgoryObject = new Category();
+                list($this->categories, $this->links)
+                    = paginate($this->num_of_records_in_page, $total_records, $this->table_name, $catgoryObject);
 
-                $message = 'Category Created';
+                return view('admin/products/categories',[
 
-                return view('/admin/products/categories', compact('categories', 'message'));
+                    'categories' => $this->categories,
+                    'links'      => $this->links,
+                    'success'    => "Category Created!"
+
+                ]);
             }
 
             throw new \Exception('Token mismatch');

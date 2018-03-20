@@ -5,4 +5,4 @@
 
     $(document).foundation();
 
-})
+})();

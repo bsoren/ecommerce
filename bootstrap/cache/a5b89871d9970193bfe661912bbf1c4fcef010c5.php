@@ -8,12 +8,12 @@
 
             <h2>Product Categories</h2>
 
-            <?php if($message): ?>
-                <p><?php echo e($message); ?></p>
-            <?php endif; ?>
-
         </div>
     </div>
+
+
+    <?php echo $__env->make('includes.message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+
 
     <div class="row expanded">
 
@@ -63,18 +63,42 @@
                     <tbody>
                             <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
-                                    <td><?php echo e($category->name); ?></td>
-                                    <td><?php echo e($category->slug); ?></td>
+                                    <td><?php echo e($category['id']); ?></td>
+                                    <td><?php echo e($category['name']); ?></td>
+                                    <td><?php echo e($category['slug']); ?></td>
                                     <!-- Eloquent returns carbon php date api (search carbon api)-->
-                                    <td><?php echo e($category->created_at->toFormattedDateString()); ?></td>
+                                    <td><?php echo e($category['added']); ?></td>
                                     <td width="100" class="text-right">
-                                        <a href="#"><i class="fa fa-edit"></i></a>
+                                        <a data-open="item-<?php echo e($category['id']); ?>"><i class="fa fa-edit"></i></a>
                                         <a href="#"><i class="fa fa-times"></i></a>
+
+                                        <!-- Edit Category Modal -->
+                                        <div class="reveal" id="item-<?php echo e($category['id']); ?>" data-reveal>
+                                            <h2>Edit Category</h2>
+                                            <form>
+                                                <div class="input-group">
+                                                    <input type="text" name="name" value="<?php echo e($category['name']); ?>">
+                                                    <input type="hidden" name="token" value="<?php echo e(\App\classes\CSRFToken::_token()); ?>">
+
+                                                    <div>
+                                                        <input type="submit" class="button update-category"
+                                                               id="<?php echo e($category['id']); ?>" value="Update">
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            <button class="close-button" data-close aria-label="Close modal" type="button">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
                                     </td>
                                 </tr>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
+
+                <?php echo $links; ?>
 
             <?php else: ?>
 
@@ -82,6 +106,28 @@
 
             <?php endif; ?>
         </div>
+
+
+        <p><button class="button" data-open="exampleModal1">Click me for a modal</button></p>
+
+
+
+        <div class="reveal" id="exampleModal1" data-reveal>
+
+            <h1>Awesome. I Have It.</h1>
+
+            <p class="lead">Your couch. It is mine.</p>
+
+            <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+
+            <button class="close-button" data-close aria-label="Close modal" type="button">
+
+                <span aria-hidden="true">&times;</span>
+
+            </button>
+
+        </div>
+
     </div>
 
 <?php $__env->stopSection(); ?>

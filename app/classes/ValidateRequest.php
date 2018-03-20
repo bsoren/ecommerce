@@ -58,8 +58,7 @@ class ValidateRequest
             if(!$valid) {
                 //set errors
                 self::setErrors(
-
-                    self::$error_messages[$rule],
+                    str_replace([':attribute',':policy'],[$column, $policy],self::$error_messages[$rule]),
                     $column
                 );
             }
